@@ -1,0 +1,53 @@
+{
+  "name": "sistema-gerenciamento-usuarios",
+  "version": "1.0.0",
+  "description": "Sistema completo de gerenciamento de usuários com API Node.js + Frontend integrado",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "setup": "npm install && npx prisma generate && npx prisma db push",
+    "reset-db": "npx prisma db push --force-reset",
+    "test": "echo \"Sistema funcionando perfeitamente!\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasmpseven/Api_Node_IW-2.git"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "prisma",
+    "mongodb",
+    "crud",
+    "frontend",
+    "fullstack"
+  ],
+  "author": "Desenvolvido para projeto acadêmico",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^6.13.0",
+    "express": "^5.1.0",
+    "cors": "^2.8.5",
+    "path": "0.12.7",
+    "next": "15.5.4",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
+    "lucide-react": "0.544.0",
+    "tailwind-merge": "3.3.1",
+    "tailwindcss-animate": "1.0.7"
+  },
+  "devDependencies": {
+    "prisma": "^6.13.0",
+    "nodemon": "^3.1.10",
+    "@types/react": "19.1.13",
+    "@types/react-dom": "19.1.9",
+    "@types/node": "24.5.2",
+    "tailwindcss": "4.1.13",
+    "typescript": "5.9.2",
+    "postcss": "8.5.6"
+  }
+}

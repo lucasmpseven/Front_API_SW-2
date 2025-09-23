@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gerenciamento de Usuários</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sistema de Gerenciamento de Usuários</h1>
+            <p>API Node.js + Frontend Integrado</p>
+        </header>
+
+        <main>
+            <!-- Formulário de Cadastro/Edição -->
+            <section class="form-section">
+                <h2 id="form-title">Cadastrar Novo Usuário</h2>
+                <form id="user-form">
+                    <input type="hidden" id="user-id">
+                    <div class="form-group">
+                        <label for="nome">Nome:</label>
+                        <input type="text" id="nome" name="nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="idade">Idade:</label>
+                        <input type="number" id="idade" name="idade" required min="1" max="120">
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit" id="submit-btn">Cadastrar</button>
+                        <button type="button" id="cancel-btn" style="display: none;">Cancelar</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Lista de Usuários -->
+            <section class="users-section">
+                <div class="section-header">
+                    <h2>Usuários Cadastrados</h2>
+                    <button id="refresh-btn">Atualizar Lista</button>
+                </div>
+                <div id="loading" class="loading">Carregando usuários...</div>
+                <div id="users-container"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal de Confirmação -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3>Confirmar Exclusão</h3>
+            <p>Tem certeza que deseja excluir este usuário?</p>
+            <div class="modal-buttons">
+                <button id="confirm-delete">Sim, Excluir</button>
+                <button id="cancel-delete">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

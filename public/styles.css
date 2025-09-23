@@ -1,0 +1,423 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  color: #333;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 40px;
+  color: white;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+header p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 30px;
+  align-items: start;
+}
+
+.form-section,
+.users-section {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.form-section h2,
+.users-section h2 {
+  color: #4a5568;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Estilos para validação */
+.form-group input:invalid {
+  border-color: #e53e3e;
+}
+
+.field-error {
+  color: #e53e3e;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+#submit-btn {
+  background: #667eea;
+  color: white;
+  flex: 1;
+}
+
+#submit-btn:hover:not(:disabled) {
+  background: #5a67d8;
+  transform: translateY(-2px);
+}
+
+#cancel-btn {
+  background: #e53e3e;
+  color: white;
+  flex: 1;
+}
+
+#cancel-btn:hover {
+  background: #c53030;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#refresh-btn {
+  background: #48bb78;
+  color: white;
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+#refresh-btn:hover {
+  background: #38a169;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #718096;
+  font-style: italic;
+}
+
+.user-card {
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.user-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.user-info {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-details h3 {
+  color: #2d3748;
+  margin-bottom: 5px;
+}
+
+.user-details p {
+  color: #718096;
+  margin: 2px 0;
+}
+
+/* Estilo para ID do usuário */
+.user-id {
+  font-size: 12px;
+  font-family: monospace;
+  background: #edf2f7;
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.user-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn {
+  background: #ed8936;
+  color: white;
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+.edit-btn:hover {
+  background: #dd6b20;
+}
+
+.delete-btn {
+  background: #e53e3e;
+  color: white;
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+.delete-btn:hover {
+  background: #c53030;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: white;
+  margin: 15% auto;
+  padding: 30px;
+  border-radius: 15px;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h3 {
+  color: #2d3748;
+  margin-bottom: 15px;
+}
+
+.modal-content p {
+  color: #718096;
+  margin-bottom: 25px;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+#confirm-delete {
+  background: #e53e3e;
+  color: white;
+}
+
+#confirm-delete:hover:not(:disabled) {
+  background: #c53030;
+}
+
+#cancel-delete {
+  background: #718096;
+  color: white;
+}
+
+#cancel-delete:hover {
+  background: #4a5568;
+}
+
+.success-message {
+  background: #c6f6d5;
+  color: #22543d;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+  border-left: 4px solid #48bb78;
+}
+
+.error-message {
+  background: #fed7d7;
+  color: #742a2a;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+  border-left: 4px solid #e53e3e;
+}
+
+/* Animações melhoradas */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.success-message,
+.error-message {
+  animation: slideIn 0.3s ease-out;
+}
+
+.user-card {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Indicador de status da API */
+.api-status {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  z-index: 1000;
+}
+
+.api-status.online {
+  background: #c6f6d5;
+  color: #22543d;
+}
+
+.api-status.offline {
+  background: #fed7d7;
+  color: #742a2a;
+}
+
+@media (max-width: 768px) {
+  main {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  header h1 {
+    font-size: 2rem;
+  }
+
+  .form-section,
+  .users-section {
+    padding: 20px;
+  }
+
+  .modal-content {
+    width: 90%;
+    margin: 20% auto;
+  }
+
+  .user-info {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .user-actions {
+    justify-content: center;
+  }
+}
+
+/* Melhorias de acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Modo escuro (opcional) */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+  }
+
+  .form-section,
+  .users-section {
+    background: #2d3748;
+    color: #e2e8f0;
+  }
+
+  .form-section h2,
+  .users-section h2 {
+    color: #e2e8f0;
+  }
+
+  .user-card {
+    background: #4a5568;
+    border-color: #718096;
+  }
+
+  .user-details h3 {
+    color: #e2e8f0;
+  }
+
+  .user-details p {
+    color: #cbd5e0;
+  }
+}
