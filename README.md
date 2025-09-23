@@ -1,3 +1,5 @@
+(Resumo gerado por IA, expoe um tutorial de como rodar o arquivo)
+
 # 🚀 Sistema Completo de Gerenciamento de Usuários
 
 Um sistema **Full Stack** completo para gerenciamento de usuários com **CRUD** (Create, Read, Update, Delete) e **atualizações automáticas em tempo real**. Desenvolvido com **Node.js + Express + Prisma + MongoDB** no backend e **HTML + CSS + JavaScript** no frontend.
