@@ -1,4 +1,5 @@
 (Resumo gerado por IA, expoe um tutorial de como rodar o arquivo)
+APENAS PARA FINS DIDÁTICOS
 
 # 🚀 Sistema Completo de Gerenciamento de Usuários
 
