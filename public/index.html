@@ -1,67 +1,194 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Gerenciamento de Usuários</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Sistema completo de gerenciamento de usuários com API Node.js e frontend integrado"/>
+  <meta name="keywords" content="usuários, cadastro, gerenciamento, nodejs, api, crud"/>
+  <meta name="author" content="Seu Nome"/>
+  <title>Sistema de Gerenciamento de Usuários - API Node.js + Frontend</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="preload" href="script.js" as="script"/>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Sistema de Gerenciamento de Usuários</h1>
-            <p>API Node.js + Frontend Integrado</p>
-        </header>
+  <!-- Skip link para acessibilidade -->
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
 
-        <main>
-            <!-- Formulário de Cadastro/Edição -->
-            <section class="form-section">
-                <h2 id="form-title">Cadastrar Novo Usuário</h2>
-                <form id="user-form">
-                    <input type="hidden" id="user-id">
-                    <div class="form-group">
-                        <label for="nome">Nome:</label>
-                        <input type="text" id="nome" name="nome" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="idade">Idade:</label>
-                        <input type="number" id="idade" name="idade" required min="1" max="120">
-                    </div>
-                    <div class="form-buttons">
-                        <button type="submit" id="submit-btn">Cadastrar</button>
-                        <button type="button" id="cancel-btn" style="display: none;">Cancelar</button>
-                    </div>
-                </form>
-            </section>
+  <div class="container">
+    <!-- Cabeçalho -->
+    <header role="banner">
+      <h1>Sistema de Gerenciamento de Usuários</h1>
+      <p>API Node.js + Frontend Integrado</p>
+      <div class="status-indicator" id="api-status" aria-live="polite">
+        <span class="status-dot"></span>
+        <span class="status-text">Verificando conexão...</span>
+      </div>
+    </header>
 
-            <!-- Lista de Usuários -->
-            <section class="users-section">
-                <div class="section-header">
-                    <h2>Usuários Cadastrados</h2>
-                    <button id="refresh-btn">Atualizar Lista</button>
-                </div>
-                <div id="loading" class="loading">Carregando usuários...</div>
-                <div id="users-container"></div>
-            </section>
-        </main>
-    </div>
+    <main id="main-content" role="main">
+      <!-- Formulário de Cadastro/Edição -->
+      <section class="form-section" aria-labelledby="form-title">
+        <div class="card">
+          <h2 id="form-title">Cadastrar Novo Usuário</h2>
+          
+          <form id="user-form" novalidate aria-describedby="form-instructions">
+            <p id="form-instructions" class="sr-only">Preencha os campos abaixo para cadastrar um novo usuário. Todos os campos são obrigatórios.</p>
+            
+            <input type="hidden" id="user-id" name="id" aria-label="ID do usuário para edição"/>
 
-    <!-- Modal de Confirmação -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <h3>Confirmar Exclusão</h3>
-            <p>Tem certeza que deseja excluir este usuário?</p>
-            <div class="modal-buttons">
-                <button id="confirm-delete">Sim, Excluir</button>
-                <button id="cancel-delete">Cancelar</button>
+            <div class="form-group">
+              <label for="nome" class="required">Nome Completo</label>
+              <input 
+                type="text" 
+                id="nome" 
+                name="nome" 
+                required 
+                minlength="2" 
+                maxlength="100"
+                aria-required="true" 
+                placeholder="Digite o nome completo"
+                aria-describedby="nome-help"
+              />
+              <small id="nome-help" class="help-text">Mínimo 2 caracteres, máximo 100 caracteres</small>
             </div>
-        </div>
-    </div>
 
-    <script src="script.js"></script>
+            <div class="form-group">
+              <label for="email" class="required">E-mail</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                required 
+                aria-required="true" 
+                placeholder="exemplo@email.com"
+                aria-describedby="email-help"
+              />
+              <small id="email-help" class="help-text">Digite um e-mail válido</small>
+            </div>
+
+            <div class="form-group">
+              <label for="idade" class="required">Idade</label>
+              <input 
+                type="number" 
+                id="idade" 
+                name="idade" 
+                required 
+                min="1" 
+                max="120" 
+                aria-required="true" 
+                placeholder="Ex: 25"
+                aria-describedby="idade-help"
+              />
+              <small id="idade-help" class="help-text">Idade deve ser entre 1 e 120 anos</small>
+            </div>
+
+            <div class="form-buttons">
+              <button type="submit" id="submit-btn" class="btn-primary">
+                <span class="btn-icon">✨</span>
+                <span class="btn-text">Cadastrar Usuário</span>
+              </button>
+              <button type="button" id="cancel-btn" class="btn-secondary" style="display: none;">
+                <span class="btn-icon">❌</span>
+                <span class="btn-text">Cancelar Edição</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Lista de Usuários -->
+      <section class="users-section" aria-labelledby="users-title">
+        <div class="card">
+          <div class="section-header">
+            <h2 id="users-title">Usuários Cadastrados <span id="users-count" class="badge">0</span></h2>
+            <button id="refresh-btn" type="button" class="btn-outline" aria-label="Atualizar lista de usuários">
+              <span class="btn-icon">🔄</span>
+              <span class="btn-text">Atualizar Lista</span>
+            </button>
+          </div>
+
+          <div id="loading" class="loading" aria-live="polite" aria-busy="true">
+            <div class="loading-spinner"></div>
+            <p>Carregando usuários...</p>
+          </div>
+
+          <div id="users-container" class="users-container" aria-live="polite">
+            <!-- Os usuários serão carregados aqui via JavaScript -->
+          </div>
+
+          <div id="users-stats" class="users-stats" aria-live="polite" style="display: none;">
+            <p>Total de <strong id="total-users">0</strong> usuários cadastrados</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal de Confirmação -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-description" hidden>
+    <div class="modal-overlay" tabindex="-1"></div>
+    <div class="modal-content" role="document">
+      <header class="modal-header">
+        <h3 id="modal-title">Confirmar Exclusão</h3>
+        <button type="button" class="modal-close" aria-label="Fechar modal" onclick="closeModal()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </header>
+      
+      <div class="modal-body">
+        <p id="modal-description">Tem certeza que deseja excluir este usuário? Esta ação não pode ser desfeita.</p>
+        <p id="modal-user-info" class="user-info"></p>
+      </div>
+      
+      <footer class="modal-footer">
+        <button id="cancel-delete" type="button" class="btn-secondary">
+          <span class="btn-text">Cancelar</span>
+        </button>
+        <button id="confirm-delete" type="button" class="btn-danger">
+          <span class="btn-icon">🗑️</span>
+          <span class="btn-text">Sim, Excluir Usuário</span>
+        </button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Toast para mensagens -->
+  <div id="toast" class="toast" aria-live="polite" aria-atomic="true" hidden>
+    <div class="toast-content">
+      <span id="toast-message"></span>
+      <button type="button" class="toast-close" aria-label="Fechar mensagem">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer role="contentinfo">
+    <div class="container">
+      <p>&copy; 2024 Sistema de Gerenciamento de Usuários. Desenvolvido com Node.js, Express e MongoDB.</p>
+      <p class="version">Versão 1.0.0</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="script.js" defer></script>
+  
+  <!-- Structured Data para SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Sistema de Gerenciamento de Usuários",
+    "description": "Sistema completo de gerenciamento de usuários com API Node.js e frontend integrado",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript",
+    "permissions": "none",
+    "author": {
+      "@type": "Person",
+      "name": "Seu Nome"
+    }
+  }
+  </script>
 </body>
 </html>

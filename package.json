@@ -7,13 +7,24 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
+    "dev:watch": "nodemon --watch server.js --watch prisma --ext js,prisma server.js",
     "setup": "npm install && npx prisma generate && npx prisma db push",
+    "setup:full": "npm ci && npx prisma generate && npx prisma db push && node scripts/setup-database.js",
     "reset-db": "npx prisma db push --force-reset",
-    "test": "echo \"Sistema funcionando perfeitamente!\" && exit 0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lucasmpseven/Api_Node_IW-2.git"
+    "reset:full": "npx prisma db push --force-reset && node scripts/setup-database.js",
+    "prisma:generate": "npx prisma generate",
+    "prisma:push": "npx prisma db push",
+    "prisma:studio": "npx prisma studio",
+    "prisma:reset": "npx prisma migrate reset",
+    "test:api": "node scripts/test-connection.js",
+    "test:db": "node scripts/test-database.js",
+    "test": "node scripts/run-tests.js",
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix",
+    "clean": "rm -rf node_modules package-lock.json && npm install",
+    "build": "echo 'Build completo - API Node.js pronta para produção'",
+    "docker:build": "docker build -t usuario-api .",
+    "docker:run": "docker run -p 3000:3000 usuario-api"
   },
   "keywords": [
     "nodejs",
@@ -21,33 +32,45 @@
     "prisma",
     "mongodb",
     "crud",
+    "rest-api",
     "frontend",
-    "fullstack"
+    "fullstack",
+    "javascript",
+    "database"
   ],
-  "author": "Desenvolvido para projeto acadêmico",
-  "license": "ISC",
+  "author": "Seu Nome <seu.email@dominio.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasmpseven/Api_Node_IW-2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lucasmpseven/Api_Node_IW-2/issues"
+  },
+  "homepage": "https://github.com/lucasmpseven/Api_Node_IW-2#readme",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
   "dependencies": {
-    "@prisma/client": "^6.13.0",
-    "express": "^5.1.0",
+    "@prisma/client": "^5.16.2",
+    "express": "^4.21.1",
     "cors": "^2.8.5",
-    "path": "0.12.7",
-    "next": "15.5.4",
-    "react": "19.1.1",
-    "react-dom": "19.1.1",
-    "class-variance-authority": "0.7.1",
-    "clsx": "2.1.1",
-    "lucide-react": "0.544.0",
-    "tailwind-merge": "3.3.1",
-    "tailwindcss-animate": "1.0.7"
+    "dotenv": "^16.4.7",
+    "helmet": "^8.0.0",
+    "express-rate-limit": "^7.4.1",
+    "compression": "^1.8.0",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "prisma": "^6.13.0",
-    "nodemon": "^3.1.10",
-    "@types/react": "19.1.13",
-    "@types/react-dom": "19.1.9",
-    "@types/node": "24.5.2",
-    "tailwindcss": "4.1.13",
-    "typescript": "5.9.2",
-    "postcss": "8.5.6"
+    "prisma": "^5.16.2",
+    "nodemon": "^3.1.7",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.3"
+  },
+  "volta": {
+    "node": "18.20.4",
+    "npm": "10.8.2"
   }
 }
